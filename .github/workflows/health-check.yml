@@ -1,0 +1,18 @@
+# GitHub Actions로 헬스체크 및 알림
+name: Health Check
+
+on:
+  schedule:
+    - cron: '*/5 * * * *' # 5분마다 실행
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Service
+        run: |
+          # 서비스 접속 시도, 실패 시 오류 처리
+          if ! curl -f https://myapp.com/health; then
+            echo "::error::Service is down!"
+            exit 1
+          fi
