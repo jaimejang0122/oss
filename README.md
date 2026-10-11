@@ -1,41 +1,9 @@
-# Simple-AI-Note-Summarizer
+### 👋 안녕하세요, 장은우입니다!
 
-파이썬으로 작성한 AI 기반 텍스트 요약 도구입니다. 긴 노트와 문서를 간결하고 읽기 쉬운 요약으로 정리합니다.
+- 💻 관심 분야: 코딩
+- 🌱 현재 Python을 공부하고 있습니다.
+- 🎯 학습 목표: 파이썬 숙달하기
 
-## 🎯 Features
+### 🛠️ Tech Stack
 
-- 긴 텍스트와 노트의 핵심 내용 요약
-- 읽기 쉬운 간결한 요약 결과 제공
-- 파이썬 명령줄에서 간편하게 실행
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.10 이상
-- pip
-- Git
-
-### Installation
-
-```bash
-git clone https://github.com/your-username/Simple-AI-Note-Summarizer.git
-cd Simple-AI-Note-Summarizer
-pip install -r requirements.txt
-```
-
-### Usage
-
-```bash
-python main.py
-```
-
-## 📝 Testing
-
-```bash
-pytest
-```
-
-## 📄 License
-
-MIT License
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
