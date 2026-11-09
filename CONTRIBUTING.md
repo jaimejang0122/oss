@@ -46,3 +46,25 @@ flowchart LR
 | `refactor/*` | 동작 변경 없는 코드 개선 |
 | `test/*` | 테스트 추가 및 수정 |
 | `chore/*` | 빌드, 설정, 유지보수 작업 |
+
+## 커밋 메시지 컨벤션
+
+커밋 메시지는 Conventional Commits 형식을 사용합니다.
+
+```text
+<type>(<scope>): <subject>
+```
+
+`scope`는 변경 범위를 구체화할 때 사용합니다. 사용할 수 있는 `type`은 다음과 같습니다.
+
+- `feat`: 기능 추가
+- `fix`: 버그 수정
+- `refactor`: 동작 변경 없는 코드 개선
+- `perf`: 성능 개선
+- `test`: 테스트 추가 또는 수정
+- `style`: 동작에 영향 없는 스타일 변경
+- `docs`: 문서 변경
+- `chore`: 유지보수 작업
+- `ci`: CI 설정 변경
+
+예시: `feat: add new login api`
