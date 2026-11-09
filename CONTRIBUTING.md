@@ -52,10 +52,10 @@ flowchart LR
 커밋 메시지는 Conventional Commits 형식을 사용합니다.
 
 ```text
-<type>(<scope>): <subject>
+<type>[optional scope]: <subject>
 ```
 
-`scope`는 변경 범위를 구체화할 때 사용합니다. 사용할 수 있는 `type`은 다음과 같습니다.
+`scope`는 선택 항목이며, 변경 범위를 구체화할 때 사용합니다. 사용할 수 있는 `type`은 다음과 같습니다.
 
 - `feat`: 기능 추가
 - `fix`: 버그 수정
