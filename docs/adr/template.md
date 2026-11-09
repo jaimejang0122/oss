@@ -4,7 +4,7 @@
 
 ## Status
 
-[제안됨 | 승인됨 | 폐기됨 | 대체됨]
+[Proposed | Accepted | Deprecated | Superseded]
 
 ## Context
 
