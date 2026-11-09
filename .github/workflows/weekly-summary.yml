@@ -1,0 +1,85 @@
+name: Weekly Summary
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: read
+
+jobs:
+  publish-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create weekly issue summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const now = new Date();
+            const start = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const sinceDate = start.toISOString().slice(0, 10);
+            const startTime = start.getTime();
+            const title = `Weekly Summary ${now.toISOString().slice(0, 10)}`;
+
+            const existing = await github.paginate(github.rest.search.issuesAndPullRequests, {
+              q: `repo:${owner}/${repo} is:issue in:title "${title}"`,
+              per_page: 100
+            });
+            if (existing.some(item => item.title === title)) {
+              core.notice(`A summary issue titled "${title}" already exists; skipping duplicate.`);
+              return;
+            }
+
+            const recentIssues = await github.paginate(github.rest.search.issuesAndPullRequests, {
+              q: `repo:${owner}/${repo} is:issue created:>=${sinceDate}`,
+              per_page: 100
+            });
+            const openedCount = recentIssues.filter(issue =>
+              Date.parse(issue.created_at) >= startTime
+            ).length;
+
+            const recentlyClosed = await github.paginate(github.rest.search.issuesAndPullRequests, {
+              q: `repo:${owner}/${repo} is:issue closed:>=${sinceDate}`,
+              per_page: 100
+            });
+            const closedCount = recentlyClosed.filter(issue =>
+              issue.closed_at && Date.parse(issue.closed_at) >= startTime
+            ).length;
+
+            const mergedCandidates = await github.paginate(github.rest.search.issuesAndPullRequests, {
+              q: `repo:${owner}/${repo} is:pr is:merged merged:>=${sinceDate}`,
+              per_page: 100
+            });
+            const mergedPullRequests = mergedCandidates.filter(pullRequest =>
+              pullRequest.pull_request?.merged_at &&
+              Date.parse(pullRequest.pull_request.merged_at) >= startTime
+            );
+
+            const breachedIssues = await github.paginate(github.rest.search.issuesAndPullRequests, {
+              q: `repo:${owner}/${repo} is:issue is:open label:sla-breached`,
+              per_page: 100
+            });
+            const mergedList = mergedPullRequests.length
+              ? mergedPullRequests.map(pullRequest => `- [#${pullRequest.number} ${pullRequest.title}](${pullRequest.html_url})`).join('\n')
+              : '- None';
+            const body = [
+              `Reporting period: ${start.toISOString()} to ${now.toISOString()} (UTC)`,
+              '',
+              '## Issues opened',
+              String(openedCount),
+              '',
+              '## Issues closed',
+              String(closedCount),
+              '',
+              '## Merged pull requests',
+              mergedList,
+              '',
+              '## Open sla-breached issues',
+              String(breachedIssues.length)
+            ].join('\n');
+
+            await github.rest.issues.create({ owner, repo, title, body });
+            core.info(`Created weekly summary: ${title}`);
