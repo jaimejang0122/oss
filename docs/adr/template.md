@@ -1,5 +1,7 @@
 # NNNN. 결정 제목
 
+<!-- NNNN에는 기존 ADR에서 사용되지 않은 다음 번호를 사용하세요. -->
+
 날짜: YYYY-MM-DD
 
 ## Status
