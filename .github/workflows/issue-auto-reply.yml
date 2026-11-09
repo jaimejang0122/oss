@@ -1,0 +1,29 @@
+name: Issue Auto Reply
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+
+jobs:
+  auto-reply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Thank the reporter and set expectations
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = [
+              '이슈를 등록해 주셔서 감사합니다.',
+              'UTC 기준 24시간 이내에 확인할 예정입니다.',
+              '질문이나 아이디어가 있다면 GitHub Discussions의 Q&A 또는 Ideas 카테고리를 이용해 주세요.'
+            ].join('\n\n');
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
