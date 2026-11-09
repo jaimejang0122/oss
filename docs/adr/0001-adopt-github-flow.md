@@ -12,7 +12,7 @@ Accepted
 
 ## Decision
 
-GitHub Flow를 채택한다. `main`을 기준 브랜치로 유지하고, `feature/*` 등 작업 브랜치에서 변경한 뒤 Pull Request 리뷰를 거쳐 squash 머지한다. 커밋 메시지에는 Conventional Commits 형식을 사용한다.
+GitHub Flow를 채택한다. `main`을 기준 브랜치로 유지하고, `feature/*` 등 작업 브랜치에서 변경한 뒤 Pull Request 리뷰를 거쳐 squash 머지한다. squash 시 PR 제목이 결과 커밋 제목이 되므로, 커밋 메시지와 PR 제목 모두에 Conventional Commits 형식을 사용한다.
 
 ## Consequences
 
