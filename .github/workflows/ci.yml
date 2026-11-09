@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lint login.html
+        run: |
+          if [ ! -f login.html ]; then
+            echo "login.html is not present yet; skipping lint."
+            exit 0
+          fi
+          npx --yes htmlhint login.html
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check login form elements
+        run: |
+          if [ ! -f login.html ]; then
+            echo "login.html is not present yet; skipping form checks."
+            exit 0
+          fi
+          grep -q '<form' login.html
+          grep -q 'type="email"' login.html
+          grep -q 'type="password"' login.html
+          grep -q 'type="submit"' login.html
